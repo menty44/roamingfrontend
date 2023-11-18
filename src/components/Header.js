@@ -36,8 +36,8 @@ export default function Header() {
                                 <div className="flex flex-shrink-0 items-center">
                                     <img
                                         className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                                        alt="Your Company"
+                                        src="./logo.png?color=indigo&shade=500"
+                                        alt="Roam"
                                     />
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
@@ -151,5 +151,3 @@ export default function Header() {
         </Disclosure>
     )
 }
-
-e
