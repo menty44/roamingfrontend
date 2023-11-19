@@ -1,7 +1,10 @@
+import Search from "./Search";
+
 function Main() {
     return (
-        <div>
-            <img src='./wick.jpeg'/>
+        <div className="background-image-div">
+            <Search></Search>
+            {/*<img src='./wick.jpeg'/>*/}
         </div>
     );
 }
