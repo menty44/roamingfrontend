@@ -34,7 +34,7 @@ function Search() {
         event.preventDefault();
         console.log(formData);
 
-        axios.post('http://localhost:4000/api/v1/search', formData)
+        axios.post('https://lotto.blaqueyard.com/api/v1/search', formData)
             .then(function (response) {
 
                 if (response?.data?.data?.['Search']?.length > 0) {
