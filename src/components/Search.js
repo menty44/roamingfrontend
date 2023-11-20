@@ -6,6 +6,7 @@ let formStateData = {
     year: ''
 };
 
+
 function Search() {
 
     const [selectedYear, setSelectedYear] = useState("");
@@ -34,18 +35,18 @@ function Search() {
         console.log(formData);
 
         axios.post('http://localhost:4000/api/v1/search', formData)
-          .then(function (response) {
-            console.log(response.data.data['Search']);
-            if(response?.data?.['Search']?.length > 0) {
-                console.log(response.data);
-                setMovieList(response.data.Search)
-            }else{
-                alert('Movie not found');
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+            .then(function (response) {
+
+                if (response?.data?.data?.['Search']?.length > 0) {
+                    console.log(response.data.data['Search']);
+                    setMovieList(response.data.data['Search'])
+                } else {
+                    alert('Movie not found');
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
     };
 
@@ -65,7 +66,7 @@ function Search() {
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             value={formData.search}
                             onChange={handleInputChange}
-                            />
+                        />
                     </div>
                 </div>
 
@@ -74,71 +75,60 @@ function Search() {
                         Year
                     </label>
                     <div className="mt-2">
-                    <select
-                        className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        value={selectedYear} onChange={handleYearChange}>
-                        <option value="">Select a year</option>
-                        {years.map((year) => (
-                            <option key={year} value={year}>
-                                {year}
-                            </option>
-                        ))}
-                    
-                    </select>
-                    {selectedYear && <p className="text-pink">You selected: {selectedYear}</p>}
-                       
+                        <select
+                            className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            value={selectedYear} onChange={handleYearChange}>
+                            <option value="">Select a year</option>
+                            {years.map((year) => (
+                                <option key={year} value={year}>
+                                    {year}
+                                </option>
+                            ))}
+
+                        </select>
+                        {selectedYear && <p className="text-pink">You selected: {selectedYear}</p>}
+
                     </div>
                 </div>
 
                 <div className="sm:col-span-2">
-                    
+
                     <div className="mt-2">
-                    <button
-                    type="button"
-                    placeholder="Search Movie"
-                    className="inline-flex items-center rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                    onClick={handleSubmit}
-                    >Search Movie</button>
-                    
+                        <button
+                            type="button"
+                            placeholder="Search Movie"
+                            className="inline-flex items-center rounded-md bg-indigo-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                            onClick={handleSubmit}
+                        >Search Movie</button>
+
                     </div>
                 </div>
 
+                <div className="flex justify-center items-center">
+                <ul role="list" className="pt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    {movieList.map((movie) => (
+                        <li
+                            key={movie.imdbID}
+                            className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
+                        >
+                            <div className="flex flex-1 flex-col p-8">
+                                <img className="mx-auto h-32 w-32 flex-shrink-0 rounded-full" src={movie.Poster} alt="" />
+                                <h3 className="mt-6 text-sm font-medium text-gray-900">{movie['Year']}</h3>
+                                <dl className="mt-1 flex flex-grow flex-col justify-between">
+                                    <dt className="sr-only">Title</dt>
+                                    <dd className="text-sm text-red-500">{movie['Title']}</dd>
+                                    <dt className="sr-only">Role</dt>
+                                    
+                                </dl>
+                            </div>
+                            
+                        </li>
+                    ))}
+                </ul>
+                </div>
 
-                {/* <div>
-    <input
-        type="text"
-        name="search"
-        id="search"
-        autoComplete="search"
-        className="border border-white focus:outline-none focus:ring focus:border-blue-700 p-10 ml-36  block flex-1 w-1/4 border-0 bg-transparent py-1.5 pl-1 text-white placeholder:text-white focus:ring-0 sm:text-sm sm:leading-6"
-        placeholder="Search by title"
-    />
-</div>
-<div>
-    <select
-        className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        value={selectedYear} onChange={handleYearChange}>
-        <option value="">Select a year</option>
-        {years.map((year) => (
-            <option key={year} value={year}>
-                {year}
-            </option>
-        ))}
-    </select>
-    {selectedYear && <p>You selected: {selectedYear}</p>}
-</div>
 
-<div>
-<input
-        type="text"
-        name="username"
-        id="username"
-        autoComplete="username"
-        className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-        placeholder="janesmith"
-      />
-</div> */}
-
+               
             </div>
         </div>
 
