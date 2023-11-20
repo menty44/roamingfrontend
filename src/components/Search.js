@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 
 let formStateData = {
     search: '',
@@ -9,6 +10,7 @@ function Search() {
 
     const [selectedYear, setSelectedYear] = useState("");
     const [formData, setFormData] = useState(formStateData);
+    const [movieList, setMovieList] = useState([]);
 
     const handleYearChange = (event) => {
         setSelectedYear(event.target.value);
@@ -30,6 +32,21 @@ function Search() {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(formData);
+
+        axios.post('http://localhost:4000/api/v1/search', formData)
+          .then(function (response) {
+            console.log(response.data.data['Search']);
+            if(response?.data?.['Search']?.length > 0) {
+                console.log(response.data);
+                setMovieList(response.data.Search)
+            }else{
+                alert('Movie not found');
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
     };
 
     return (
